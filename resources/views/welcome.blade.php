@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Test</title>
         
@@ -20,13 +21,25 @@
 
         <!-- Styles -->
         <style>
-            .content {
-                margin: 0 auto;
+                .content
+                {
+                width: 400px;
+                margin: 50px auto;
                 border: 1px solid #000;
-            }
+                box-shadow: 0 0 10px rgba(0,0,0,0.5);
+                text-align: center;
+                }
+                .message {
+                    width: 400px;
+                    text-align: center;
+                    margin: 50px auto;
+                }
+                .message span {
+                    display: none;
+                }
                 #fieldlist {
                     margin: 0 auto;
-                    padding: 0;
+                    padding-top: 10px;
                 }
 
                 #fieldlist li {
@@ -39,7 +52,6 @@
                     display: block;
                     padding-bottom: .3em;
                     font-weight: bold;
-                    text-transform: uppercase;
                     font-size: 12px;
                     color: #444;
                 }
@@ -67,61 +79,51 @@
             </style>
     </head>
     <body>
+        <div class="message"><span>Incorrect username or password</span></div>
         <div class="content">            
-                <form id="employeeForm" data-role="validator" novalidate="novalidate">
+                <form id="loginForm" >
                     <ul id="fieldlist">
                         <li>
-                            <label for="FirstName">First Name:</label>
-                            <input type="text" class="k-textbox" name="FirstName" id="FirstName" required="required" />
+                            <label for="Username">Username:</label>
+                            <input type="text" class="k-textbox" name="userName" />
                         </li> 
                         <li>
-                            <label for="LastName">Last Name:</label>
-                            <input type="text" class="k-textbox" name="LastName" id="LastName" required="required" />
+                            <label for="Password">Password:</label>
+                            <input type="text" class="k-textbox" name="password"  />
                         </li>   
+                        
                         <li>
-                            <label for="HireDate">Hire Date:</label>
-                            <input type="text" data-role='datepicker' id="HireDate" name="HireDate" data-type="date" required="required"  />
-                            <span data-for='HireDate' class='k-invalid-msg'></span>
-                        </li> 
-                        <li>
-                            <label for="RetireDate">Retire Date:</label>
-                            <input type="text" data-role='datepicker' id ="RetireDate" data-type="date" name="RetireDate" data-greaterdate-field="HireDate" data-greaterdate-msg='Retire date should be after Hire date' />
-                            <span data-for='RetireDate' class='k-invalid-msg'></span>
-                        </li> 
-                        <li>
-                             <button type="button" class="k-primary" data-role="button" data-click='save'>Save</button>
+                             <button type="submit" class="k-primary" data-role="button" data-click='login'>Login</button>
                         </li>       
                     </ul>
                 </form>
             </div>                      
 
-            <script type="text/javascript">
-                $(function () {
-                    var container = $("#employeeForm");
-                    kendo.init(container);
-                    container.kendoValidator({
-                        rules: {
-                            greaterdate: function (input) {
-                                if (input.is("[data-greaterdate-msg]") && input.val() != "") {                                    
-                                    var date = kendo.parseDate(input.val()),
-                                        otherDate = kendo.parseDate($("[name='" + input.data("greaterdateField") + "']").val());
-                                    return otherDate == null || otherDate.getTime() < date.getTime();
-                                }
-
-                                return true;
+           <script>
+                $(document).ready(function(){
+                    $('#loginForm').on('submit', function(e){
+                        e.preventDefault();
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
-                        }
+                            });
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('loginUser') }}',
+                            data: $('#loginForm').serialize(),
+                            dataType: 'json',
+                            success: function(answer){
+                                if (answer.status == 'ok') {
+                                    console.log("1");
+                                }else{
+                                    console.log("2");
+                                }
+                                    }
+                        });
                     });
                 });
-
-                function save(e) {
-                    var validator = $("#employeeForm").data("kendoValidator");
-                    if (validator.validate()) {
-                        alert("Employee Saved");
-                    }
-                }
-            
-            </script>    
+            </script>
         
         </div>
     </body>
