@@ -13,25 +13,24 @@ class LoginUserController extends Controller
     	$users = User::all();
     	$userName = $request->userName;
     	$password = $request->password;
+        $count = 0;
     	foreach ($users as $user) {
     		if ($user->email == $userName && $user->password == $password) {
-	    		$answer=[
-	               'status' => 'ok',
-	               'name' => $user->email,
-	               'rname' => $request->userName,
-	               'p' => $user->password,
-	            ];
-           	
-    		}else{
-    			$answer=[
-	               'status' => 'error',
-	               'name' => $user->email,
-	               'rname' => $request->userName,
-	               'p' => $user->password,
-	            ];
-           	
+	    		$count++;
     		}
     	}
-return json_encode($answer);
+        if ($count > 0) {
+                $answer=[
+                   'status' => 'ok',                   
+                ];
+            return json_encode($answer);
+            }else{
+                $answer=[
+                   'status' => 'error',
+                ];
+            return json_encode($answer);
+            }
+
     }
+    
 }

@@ -21,7 +21,7 @@
 
         <!-- Styles -->
         <style>
-                .content
+                .content, .message
                 {
                 width: 400px;
                 margin: 50px auto;
@@ -30,11 +30,7 @@
                 text-align: center;
                 }
                 .message {
-                    width: 400px;
-                    text-align: center;
-                    margin: 50px auto;
-                }
-                .message span {
+                    background-color: #FF7F50;
                     display: none;
                 }
                 #fieldlist {
@@ -115,11 +111,11 @@
                             dataType: 'json',
                             success: function(answer){
                                 if (answer.status == 'ok') {
-                                    console.log("1");
+                                   window.location.href = '{{route('table')}}';
                                 }else{
-                                    console.log("2");
+                                    $('.message').css('display', 'block');
                                 }
-                                    }
+                                }
                         });
                     });
                 });

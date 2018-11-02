@@ -16,3 +16,9 @@ Route::get('/', function () {
 });
 
 Route::post('/loginUser', 'Ajax\LoginUserController@loginUser')->name('loginUser');
+
+Route::get('/table', 'TranslationController@tableShow')->name('table');
+Route::get('/language', 'TranslationController@language')->name('language');
+
+Route::any('/read', 'TranslationController@read')->name('read');
+Route::post('/create', 'TranslationController@create')->name('create');
