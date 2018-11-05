@@ -34,8 +34,9 @@
                                     dataType: "json"
                                 },
                                 update: {
-                                    url: crudServiceBaseUrl + "/Products/Update",
-                                    dataType: "jsonp"
+                                    url: '{{route('create')}}',
+                                    type: "POST",
+                                    dataType: "json"
                                 },
                                 destroy: {
                                     url: crudServiceBaseUrl + "/Products/Destroy",
@@ -54,6 +55,7 @@
                             batch: true,
                             pageSize: 20,
                             schema: {
+                                type: "json",
                                 model: {
                                     id: "id",
                                     fields: {
@@ -75,11 +77,11 @@
                         toolbar: ["create"],
                         columns: [
                             "id",                            
-                            { field: "description", title: "description", width: "120px" },
-                            { field: "label_id", title:"label_id", width: "120px" },
-                            { field: "text", title:"text", width: "120px" },
-                           /* { field: "language_id", title: "language_id", width: "120px", editor: languageDropDownEditor, template: "#=language_id.id#" },*/
-                            { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                            { field: "description", title: "description", width: "20%" },
+                            { field: "label_id", title:"label_id", width: "20%" },
+                            { field: "text", title:"text", width: "20%" },
+                           /* { field: "language_id", title: "language_id", width: "20%", editor: languageDropDownEditor, template: "#=language_id.id#" },*/
+                            { command: ["edit", "destroy"], title: "&nbsp;", width: "20%" }],
                         editable: "inline"
                     });
                 });

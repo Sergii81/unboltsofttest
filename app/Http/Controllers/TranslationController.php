@@ -32,13 +32,18 @@ class TranslationController extends Controller
     public function create(Request $request)
     {
         $translation = new Translation;
-        $translation->description = $request->description;
-        $translation->label_id = $request->label_id;
-        $translation->text = $request->text; 
+        $a = $request->models;
+        $a = trim($a, "[]");
+        $b = json_decode($a);
         
+       // var_dump($b->description);
+
+        $translation->description = $b->description;
+        $translation->label_id = $b->label_id;
+        $translation->text = $b->text;         
         $translation->save();
         
-        return redirect()->route('read');  
+        return route('table');  
         
     }
 }
