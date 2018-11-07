@@ -35,8 +35,7 @@
                                 },
                                 update: {
                                     url: '{{route('create')}}',
-                                    type: "POST",
-                                    dataType: "json"
+                                    type: "POST"
                                 },
                                 destroy: {
                                     url: crudServiceBaseUrl + "/Products/Destroy",

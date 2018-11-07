@@ -29,21 +29,19 @@ class TranslationController extends Controller
     	return json_encode($translation);
     }
 
-    public function create(Request $request)
+     public function create(Request $request)
     {
         $translation = new Translation;
         $a = $request->models;
         $a = trim($a, "[]");
         $b = json_decode($a);
-        
-       // var_dump($b->description);
-
         $translation->description = $b->description;
         $translation->label_id = $b->label_id;
-        $translation->text = $b->text;         
+        $translation->text = $b->text; 
+        
         $translation->save();
         
-        return route('table');  
+        //return view('table');  
         
     }
 }
