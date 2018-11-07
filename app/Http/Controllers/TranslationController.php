@@ -31,17 +31,35 @@ class TranslationController extends Controller
 
      public function create(Request $request)
     {
-        $translation = new Translation;
+        
         $a = $request->models;
         $a = trim($a, "[]");
         $b = json_decode($a);
-        $translation->description = $b->description;
-        $translation->label_id = $b->label_id;
-        $translation->text = $b->text; 
-        
+        $id = $b->id;
+        if ($id == 0) {
+            $translation = new Translation;
+            $translation->description = $b->description;
+            $translation->label_id = $b->label_id;
+            $translation->text = $b->text;
+        }else{            
+            $translation = Translation::find($id);
+            $translation->description = $b->description;
+            $translation->label_id = $b->label_id;
+            $translation->text = $b->text;
+        }          
         $translation->save();
         
-        //return view('table');  
+        //return view('table');
         
+        
+    }
+
+    public function destroy(Request $request)
+    {
+        $a = $request->models;
+        $a = trim($a, "[]");
+        $b = json_decode($a);
+        $id = $b->id;
+        $translation = Translation::destroy($id);
     }
 }

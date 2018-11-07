@@ -22,3 +22,4 @@ Route::get('/language', 'TranslationController@language')->name('language');
 
 Route::any('/read', 'TranslationController@read')->name('read');
 Route::post('/create', 'TranslationController@create')->name('create');
+Route::post('/destroy', 'TranslationController@destroy')->name('destroy');

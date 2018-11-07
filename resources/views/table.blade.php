@@ -38,12 +38,14 @@
                                     type: "POST"
                                 },
                                 destroy: {
-                                    url: crudServiceBaseUrl + "/Products/Destroy",
-                                    dataType: "jsonp"
+                                    url: '{{route('destroy')}}',
+                                    type: "POST",
+                                    dataType: "json"
                                 },
                                 create: {
                                     url: '{{route('create')}}',
-                                    type: "POST"
+                                    type: "POST",
+                                    dataType: "json"
                                 },
                                 parameterMap: function(options, operation) {
                                     if (operation !== "read" && options.models) {
@@ -62,7 +64,7 @@
                                         description: { validation: { required: true } },
                                         label_id: { validation: { required: true } },
                                         text: {validation: { required: true } },
-                                       /* language_id: { validation: { required: true } }    */                                    
+                                        language_id: { validation: { required: true } }                                       
                                     }
                                 }
                             }
@@ -73,35 +75,36 @@
                         navigatable: true,
                         pageable: true,
                         height: 550,
-                        toolbar: ["create"],
+                        toolbar: ["create", "save"],
                         columns: [
                             "id",                            
-                            { field: "description", title: "description", width: "20%" },
-                            { field: "label_id", title:"label_id", width: "20%" },
-                            { field: "text", title:"text", width: "20%" },
-                           /* { field: "language_id", title: "language_id", width: "20%", editor: languageDropDownEditor, template: "#=language_id.id#" },*/
-                            { command: ["edit", "destroy"], title: "&nbsp;", width: "20%" }],
+                            { field: "description", title: "description", width: "15%" },
+                            { field: "label_id", title:"label_id", width: "15%" },
+                            { field: "text", title:"text", width: "15%" },
+                            { field: "language_id", title: "language_id", width: "15%", editor: languageDropDownEditor, template: "#=language_id#" },
+                            { command: ["edit", "destroy"], title: "&nbsp;", width: "15%" }],
                         editable: "inline"
                     });
                 });
 
                 
 
-              /*  function languageDropDownEditor(container, options) {
-                    $('<input required name="' + options.id + '"/>')
+              function languageDropDownEditor(container, options) {
+                    $('<input required name="' + options.language_id + '"/>')
                         .appendTo(container)
                         .kendoDropDownList({
                             autoBind: false,
-                            dataTextField: "id",
-                           
+                            dataTextField: "code",
+                            dataValueField: "id",
                             dataSource: {
                                 type: "odata",
+                                dataType: "json",
                                 transport: {
                                     read: '{{route('language')}}'                                 
                                 }
                             }
                         });
-                }*/
+                }
             </script>
         </div>
 
