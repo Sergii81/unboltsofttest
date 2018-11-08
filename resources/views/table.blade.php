@@ -90,17 +90,19 @@
                 
 
               function languageDropDownEditor(container, options) {
-                    $('<input required name="' + options.language_id + '"/>')
+                    $('<input required name="' + options.field + '"/>')
                         .appendTo(container)
                         .kendoDropDownList({
                             autoBind: false,
                             dataTextField: "code",
                             dataValueField: "id",
-                            dataSource: {
-                                type: "odata",
-                                dataType: "json",
+                            dataSource: {  
                                 transport: {
-                                    read: '{{route('language')}}'                                 
+                                    read: {
+                                        dataType: "json",
+                                        url: '{{route('language')}}'
+                                    }
+                                                                     
                                 }
                             }
                         });

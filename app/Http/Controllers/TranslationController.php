@@ -15,12 +15,9 @@ class TranslationController extends Controller
 
     public function language()
     {
-    	$languages_id = Language::pluck('id');
-    	$id = [];
-    	foreach ($languages_id as $language_id) {
-    		array_push($id, $language_id);
-    	}
-    	return $id;
+    	
+        $language_id = Language::all();   
+        return json_encode($language_id);
     }
 
     public function read()
@@ -41,17 +38,16 @@ class TranslationController extends Controller
             $translation->description = $b->description;
             $translation->label_id = $b->label_id;
             $translation->text = $b->text;
+            $translation->language_id = $b->language_id;
+
         }else{            
             $translation = Translation::find($id);
             $translation->description = $b->description;
             $translation->label_id = $b->label_id;
             $translation->text = $b->text;
+            $translation->language_id = $b->language_id;
         }          
         $translation->save();
-        
-        //return view('table');
-        
-        
     }
 
     public function destroy(Request $request)
@@ -60,6 +56,6 @@ class TranslationController extends Controller
         $a = trim($a, "[]");
         $b = json_decode($a);
         $id = $b->id;
-        $translation = Translation::destroy($id);
+        $translation = Translation::destroy($id);        
     }
 }
